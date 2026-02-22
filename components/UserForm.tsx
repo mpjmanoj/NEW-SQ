@@ -161,21 +161,25 @@ export const UserForm: React.FC<UserFormProps> = ({ userData, setUserData, onBac
 
   // --- Form Validation ---
 
-  const isFormValid = () => (
-    userData.fullName.trim().length > 2 &&
-    userData.email.trim().includes('@') &&
-    userData.phone.trim().length >= 10
-  );
+  const isFormValid = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return (
+      userData.fullName.trim().length > 2 &&
+      emailRegex.test(userData.email.trim()) &&
+      userData.phone.trim().length >= 10
+    );
+  };
 
   const handleContinue = () => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (isFormValid()) {
       setError('');
       onContinue();
     } else {
       if (userData.fullName.trim().length <= 2) {
         setError('Please enter your full name (at least 3 characters).');
-      } else if (!userData.email.trim().includes('@')) {
-        setError('Please enter a valid email address.');
+      } else if (!emailRegex.test(userData.email.trim())) {
+        setError('Please enter a valid email address (e.g. name@example.com).');
       } else if (userData.phone.trim().length < 10) {
         setError('Please enter a valid 10-digit phone number.');
       } else {
@@ -202,9 +206,9 @@ export const UserForm: React.FC<UserFormProps> = ({ userData, setUserData, onBac
           {/* Header */}
           <div className="text-center mb-8 mt-2">
             <div className="inline-flex items-center gap-2 mb-3">
-              <span className="font-serif font-bold text-2xl text-stone-800">IN</span>
-              <span className="bg-orange-50 text-orange-500 text-[10px] font-sans font-bold tracking-widest uppercase px-3 py-1 rounded-full">
-                MY PLEDGE FOR INDIA
+              <span className="text-2xl">🐦</span>
+              <span className="bg-green-50 text-leaf text-[10px] font-sans font-bold tracking-widest uppercase px-3 py-1 rounded-full">
+                SPARROW GUARDIAN
               </span>
             </div>
             <h2 className="text-3xl font-bold text-blue-900 font-sans">Enter Details</h2>
@@ -320,7 +324,8 @@ export const UserForm: React.FC<UserFormProps> = ({ userData, setUserData, onBac
                     value={userData.email}
                     onChange={(e) => {
                       setUserData({ ...userData, email: e.target.value });
-                      if (error && e.target.value.includes('@')) setError('');
+                      const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                      if (error && emailRegex.test(e.target.value)) setError('');
                     }}
                     placeholder="name@example.com"
                     className="w-full bg-slate-50 border border-slate-200 rounded-lg px-5 py-4 pr-12 text-stone-700 placeholder-slate-400 focus:bg-white focus:ring-2 focus:ring-blue-900/10 focus:border-blue-900 outline-none transition-all"
@@ -356,8 +361,8 @@ export const UserForm: React.FC<UserFormProps> = ({ userData, setUserData, onBac
             <button
               onClick={handleContinue}
               className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all ${isFormValid()
-                  ? 'bg-slate-200 text-slate-500 hover:bg-leaf hover:text-white hover:shadow-lg hover:-translate-y-1'
-                  : 'bg-slate-200 text-slate-400 cursor-not-allowed'
+                ? 'bg-slate-200 text-slate-500 hover:bg-leaf hover:text-white hover:shadow-lg hover:-translate-y-1'
+                : 'bg-slate-200 text-slate-400 cursor-not-allowed'
                 }`}
             >
               Continue <ChevronRight size={20} />

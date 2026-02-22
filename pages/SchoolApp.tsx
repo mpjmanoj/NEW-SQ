@@ -21,7 +21,7 @@ const SchoolApp: React.FC = () => {
 
     // Update page title with school name
     React.useEffect(() => {
-        document.title = `${school.name} | Flag Pledge Initiative 🇮🇳`;
+        document.title = `${school.name} | Sparrow Guardians 🐦`;
     }, [school.name]);
 
     return (

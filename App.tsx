@@ -12,6 +12,8 @@ import { saveUserData } from './services/dataStore';
 const App: React.FC = () => {
   const [currentStep, setCurrentStep] = useState<Step>(Step.Home);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitError, setSubmitError] = useState<string | null>(null);
   const [userData, setUserData] = useState<UserData>({
     fullName: '',
     email: '',
@@ -44,7 +46,14 @@ const App: React.FC = () => {
   };
 
   const handleConfirm = async () => {
-    await saveUserData(userData, {});
+    setIsSubmitting(true);
+    setSubmitError(null);
+    const saved = await saveUserData(userData, {});
+    setIsSubmitting(false);
+    if (!saved) {
+      setSubmitError('Could not save your commitment. Check your connection and try again.');
+      return;
+    }
     goToStep(Step.Success);
   };
 
@@ -86,6 +95,8 @@ const App: React.FC = () => {
             userData={userData}
             onBack={() => goToStep(Step.Quiz)}
             onConfirm={handleConfirm}
+            isSubmitting={isSubmitting}
+            submitError={submitError}
           />
         )}
         {currentStep === Step.Success && (

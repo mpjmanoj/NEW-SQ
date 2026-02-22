@@ -8,19 +8,18 @@ interface PledgeReadingProps {
   onConfirm: () => void;
 }
 
-// The pledge text to be read aloud (word by word)
-// Breakdown of the pledge into individual points for the user to agree to
-const PLEDGE_POINTS = [
-  "I pledge to hoist the Indian National Flag correctly, with the saffron band on top.",
-  "I pledge to display the Indian National Flag only on a proper staff or stand.",
-  "I pledge to use Indian National Flags made from non-plastic, eco-friendly materials.",
-  "I pledge to display the Indian National Flag only when it is clean, dignified, and in good condition.",
-  "I pledge not to misuse the Indian National Flag as clothing, decoration, or for advertising purposes.",
-  "I pledge not to print, write, paste, or place anything on the Indian National Flag.",
-  "I pledge to ensure that the Indian National Flag never touches the ground, water, or any unclean surface.",
-  "I pledge to handle, fold, and store the Indian National Flag with care and respect, strictly following the Flag Code of India.",
-  "I pledge to collect Indian National Flags after events, ensure they are not left in public places.",
-  "I pledge to dispose of damaged flags respectfully through proper methods such as private burning or burial."
+// Sparrow conservation commitments for the user to acknowledge
+const SPARROW_COMMITMENTS = [
+  "I will put out water in a shallow vessel on my terrace or window sill for sparrows, especially in summer.",
+  "I will leave out grains — rice, millet, or breadcrumbs — in a corner of my home or garden for sparrows to feed on.",
+  "I will avoid using pesticides in my garden that harm the insects sparrows rely on for protein, especially for their chicks.",
+  "I will try to install a nest box in my home, balcony, or school to give sparrows a safe place to breed.",
+  "I will speak to at least five people around me about why house sparrows are disappearing and what we can do.",
+  "I will spread awareness on social media or in my community about protecting urban birds and their habitats.",
+  "I will plant native shrubs or grasses that support insects, which sparrows need to survive.",
+  "I will discourage the use of reflective glass on buildings near my home or school that confuse and injure birds.",
+  "I will report injured sparrows to a local wildlife rescue centre instead of leaving them unattended.",
+  "I commit to being a guardian of the house sparrow — by action, not just by word."
 ];
 
 export const PledgeReading: React.FC<PledgeReadingProps> = ({ userData, onBack, onConfirm }) => {
@@ -36,14 +35,14 @@ export const PledgeReading: React.FC<PledgeReadingProps> = ({ userData, onBack, 
   };
 
   const handleSelectAll = () => {
-    if (checkedPoints.length === PLEDGE_POINTS.length) {
+    if (checkedPoints.length === SPARROW_COMMITMENTS.length) {
       setCheckedPoints([]);
     } else {
-      setCheckedPoints(PLEDGE_POINTS.map((_, i) => i));
+      setCheckedPoints(SPARROW_COMMITMENTS.map((_, i) => i));
     }
   };
 
-  const allChecked = checkedPoints.length === PLEDGE_POINTS.length;
+  const allChecked = checkedPoints.length === SPARROW_COMMITMENTS.length;
 
   return (
     <div className="min-h-screen bg-canvas pt-20 pb-0 flex flex-col">
@@ -52,8 +51,8 @@ export const PledgeReading: React.FC<PledgeReadingProps> = ({ userData, onBack, 
         <button onClick={onBack} className="text-stone-500 hover:text-stone-800 font-medium mb-4 block">
           ← Back to Preview
         </button>
-        <h2 className="text-2xl font-display font-bold text-indiaNavy">Flag Code of India</h2>
-        <p className="text-sm text-stone-500 mt-1">Read and acknowledge each point to continue.</p>
+        <h2 className="text-2xl font-display font-bold text-indiaNavy">Sparrow Guardian Commitments</h2>
+        <p className="text-sm text-stone-500 mt-1">Acknowledge each commitment to continue.</p>
       </div>
 
       {/* Content Card */}
@@ -69,7 +68,7 @@ export const PledgeReading: React.FC<PledgeReadingProps> = ({ userData, onBack, 
             <div className="flex items-center justify-between mb-2">
               <div className="flex items-center gap-2">
                 <BookOpen size={20} className="text-indiaNavy" />
-                <h3 className="font-display font-bold text-lg text-indiaNavy">The Pledge</h3>
+                <h3 className="font-display font-bold text-lg text-indiaNavy">My Commitments</h3>
               </div>
               <button
                 onClick={handleSelectAll}
@@ -80,7 +79,7 @@ export const PledgeReading: React.FC<PledgeReadingProps> = ({ userData, onBack, 
             </div>
 
             <div className="bg-stone-50 rounded-2xl p-4 border border-stone-100 space-y-3">
-              {PLEDGE_POINTS.map((point, index) => {
+              {SPARROW_COMMITMENTS.map((point, index) => {
                 const isChecked = checkedPoints.includes(index);
                 return (
                   <div
@@ -95,7 +94,7 @@ export const PledgeReading: React.FC<PledgeReadingProps> = ({ userData, onBack, 
                     tabIndex={0}
                     role="checkbox"
                     aria-checked={isChecked}
-                    aria-label={`Pledge point ${index + 1}: ${point}`}
+                    aria-label={`Commitment ${index + 1}: ${point}`}
                     className={`flex items-start gap-3 p-3 rounded-xl border transition-all cursor-pointer focus:outline-none focus:ring-2 focus:ring-saffron/30 ${isChecked
                       ? 'bg-white border-saffron/20 shadow-sm'
                       : 'bg-transparent border-transparent hover:bg-stone-100'
@@ -123,13 +122,13 @@ export const PledgeReading: React.FC<PledgeReadingProps> = ({ userData, onBack, 
           <button
             onClick={onConfirm}
             disabled={!allChecked}
-            aria-label="Take the pledge (all points must be selected)"
+            aria-label="Become a Sparrow Guardian (all commitments must be selected)"
             className={`w-full py-4 rounded-xl font-bold text-lg flex items-center justify-center gap-2 transition-all focus:outline-none ${allChecked
               ? 'bg-gradient-to-r from-saffron to-[#f97316] text-white shadow-lg shadow-saffron/20 hover:-translate-y-1 focus:ring-2 focus:ring-saffron/30'
               : 'bg-stone-200 text-stone-400 cursor-not-allowed'
               }`}
           >
-            Take the Pledge <ShieldAlert size={20} aria-hidden="true" />
+            Become a Guardian 🐦
           </button>
         </div>
       </div>

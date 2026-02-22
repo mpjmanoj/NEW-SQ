@@ -7,9 +7,11 @@ interface CertificatePreviewProps {
   userData: UserData;
   onBack: () => void;
   onConfirm: () => void;
+  isSubmitting?: boolean;
+  submitError?: string | null;
 }
 
-export const CertificatePreview: React.FC<CertificatePreviewProps> = ({ userData, onBack, onConfirm }) => {
+export const CertificatePreview: React.FC<CertificatePreviewProps> = ({ userData, onBack, onConfirm, isSubmitting = false, submitError = null }) => {
   const [hovered, setHovered] = useState(false);
   const score = userData.score ?? 0;
   const total = 20;
@@ -65,6 +67,11 @@ export const CertificatePreview: React.FC<CertificatePreviewProps> = ({ userData
               Ensure your details are correct. This image will serve as your badge of honor in the preservation of our urban birds.
             </p>
 
+            {submitError && (
+              <div className="flex items-start gap-2 bg-red-50 border border-red-200 text-red-700 text-sm p-3 rounded-xl mt-2" role="alert">
+                <span>⚠️ {submitError}</span>
+              </div>
+            )}
             <div className="flex gap-3">
               <button
                 onClick={onBack}
@@ -74,9 +81,14 @@ export const CertificatePreview: React.FC<CertificatePreviewProps> = ({ userData
               </button>
               <button
                 onClick={onConfirm}
-                className="flex-1 py-4 bg-leaf text-white font-serif text-lg rounded-xl shadow-[0_10px_30px_rgba(85,139,47,0.3)] hover:shadow-[0_14px_40px_rgba(85,139,47,0.4)] hover:-translate-y-1 transition-all flex items-center justify-center gap-2"
+                disabled={isSubmitting}
+                className="flex-1 py-4 bg-leaf text-white font-serif text-lg rounded-xl shadow-[0_10px_30px_rgba(85,139,47,0.3)] hover:shadow-[0_14px_40px_rgba(85,139,47,0.4)] hover:-translate-y-1 transition-all flex items-center justify-center gap-2 disabled:opacity-60 disabled:cursor-not-allowed disabled:hover:translate-y-0"
               >
-                <Check size={20} /> Confirm & Generate
+                {isSubmitting ? (
+                  <><span className="animate-spin inline-block w-5 h-5 border-2 border-white border-t-transparent rounded-full" /> Saving…</>
+                ) : (
+                  <><Check size={20} /> Confirm & Generate</>
+                )}
               </button>
             </div>
           </div>

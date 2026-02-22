@@ -1,8 +1,7 @@
 import { UserData } from '../types';
 
-// In a real scenario, this would be your Google Apps Script Web App URL
-// Google Apps Script Web App URL provided by the user
-const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycby_zgKvm1Pi4M3-kATr7wf_G2rYaVkIoUxfLTyQ8n4KXSuYt45Ot-dKxmR9qUNfJXhYbw/exec';
+// Google Apps Script Web App URL — stored in .env as VITE_SCRIPT_URL
+const SCRIPT_URL = import.meta.env.VITE_SCRIPT_URL as string;
 
 interface SaveOptions {
   schoolSlug?: string;
@@ -16,7 +15,7 @@ export const saveUserData = async (userData: UserData, options?: SaveOptions): P
       fullName: userData.fullName,
       email: userData.email,
       phone: `${userData.countryCode}${userData.phone}`,
-      pledge: 'Sparrow Conservation Guardian',
+      commitment: 'Sparrow Conservation Guardian',
       photoStatus: userData.photo ? 'Uploaded' : 'None',
       score: userData.score || 0,
       // Include school info if available
@@ -24,9 +23,8 @@ export const saveUserData = async (userData: UserData, options?: SaveOptions): P
       schoolName: options?.schoolName || 'General Public'
     };
 
-    console.log('Sending data to backend:', payload);
+    // Submit sparrow guardian data
 
-    // Send data to Google Sheets via Google Apps Script
     await fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors', // Important for Google Apps Script
@@ -36,7 +34,7 @@ export const saveUserData = async (userData: UserData, options?: SaveOptions): P
 
     return true;
   } catch (error) {
-    console.error('Error saving pledge:', error);
+    console.error('Error saving guardian commitment:', error);
     return false;
   }
 };

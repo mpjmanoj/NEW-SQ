@@ -18,10 +18,10 @@ export const Footer: React.FC<FooterProps> = ({ onPrivacyClick }) => {
         <div className="col-span-1 lg:col-span-1">
           <div className="flex flex-col">
             <span className="font-display font-bold text-2xl text-stone-100 tracking-tight leading-none">Communitree</span>
-            <span className="text-xs font-medium text-stone-500 uppercase tracking-widest mt-1">Flag Pledge</span>
+            <span className="text-xs font-medium text-stone-500 uppercase tracking-widest mt-1">Sparrow Guardians</span>
           </div>
           <p className="text-sm leading-relaxed text-stone-400 mb-6">
-            This pledge is a community-led initiative promoting respect for the Indian National Flag by communitree.
+            A community-led effort to bring back the house sparrow. Small actions. Real change.
           </p>
           <div className="flex gap-3">
             <SocialLink href="https://www.linkedin.com/company/communitree-india/?originalSubdomain=in" icon={<Linkedin size={18} />} color="hover:bg-blue-700" label="LinkedIn" />
