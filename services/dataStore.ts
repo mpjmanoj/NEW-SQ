@@ -28,7 +28,10 @@ export const saveUserData = async (userData: UserData, options?: SaveOptions): P
     await fetch(SCRIPT_URL, {
       method: 'POST',
       mode: 'no-cors', // Important for Google Apps Script
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Sparrow-Token': import.meta.env.VITE_API_SECRET as string || ''
+      },
       body: JSON.stringify(payload)
     });
 
